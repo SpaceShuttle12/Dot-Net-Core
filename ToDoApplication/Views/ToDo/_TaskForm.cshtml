@@ -1,0 +1,25 @@
+﻿@model ToDoApplication.Models.ToDoModel
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.TaskName)
+    @Html.TextBoxFor(model => model.TaskName, new { @class = "form-control" })
+    <div style="color:red" id="validateName"></div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.TaskDescription)
+    @Html.TextAreaFor(model => model.TaskDescription, new { @class = "form-control" })
+    <div style="color:red" id="validateDescription"></div>
+</div>
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.TaskStatus)
+    @Html.DropDownListFor(model => model.TaskStatus, new SelectList(ViewBag.StatusList, "Value", "Text",ViewBag.SelectedValue), new { @class = "form-control" })
+    <div style="color:red" id="validateStatus"></div>
+</div>
+<div class="form-group" style="text-align:center;">
+    <input type="submit" class="btn btn-sm btn-success" value="Save" style="cursor:pointer" />
+    <a href="@Url.Action("Index","ToDo")" class="btn btn-sm btn-warning">Cancel</a>
+</div>

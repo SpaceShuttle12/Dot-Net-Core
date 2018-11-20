@@ -1,0 +1,81 @@
+﻿@model IEnumerable<ToDoApplication.Models.ToDoModel>
+@{
+    ViewData["Title"] = "To Do Listing page";
+    var i = 1;
+    var description = "";
+}
+
+<div class="content">
+    <div class="row">
+        <div style="text-align:center">
+            <h3 class="h2">Task Listing</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div style="text-align:center">
+            <a asp-area="" asp-controller="ToDo" asp-action="AddTask"><i class="fas action fa-plus-circle"></i></a>
+            <hr style="border:1px solid #90C3D4;" />
+        </div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <table class="table table-hover table-bordered" width="100%" id="toDoTable">
+            <thead class="thead-dark">
+                <tr>
+                    <th width="5%" scope="col" valign="middle"><i class="fas fa-list-ol headIcons"></i></th>
+                    <th width="20%" scope="col" valign="middle"><i class="fas fa-tasks headIcons"></i>&nbsp;@ToDoApplication.Resources.Common.lblName</th>
+                    <th width="40%" scope="col" valign="middle"><i class="fas fa-audio-description headIcons"></i>&nbsp;@ToDoApplication.Resources.Common.lblDescription</th>
+                    <th width="20%" scope="col" valign="middle"><i class="fas fa-thermometer-three-quarters headIcons"></i>&nbsp;@ToDoApplication.Resources.Common.lblStatus</th>
+                    <th width="15%" scope="col" valign="middle"><i class="fas fa-wrench headIcons"></i>&nbsp;Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (Model.Count() > 0)
+                    {
+                        description = item.TaskDescription.Substring(0, item.TaskDescription.Length) + "...";
+                        description = item.TaskDescription.Length > 50 ? @description : @item.TaskDescription;
+                        <tr>
+                            <td valign="middle">@i</td>
+                            <td valign="middle">@item.TaskName</td>
+                            <td valign="middle">@description</td>
+                            <td valign="middle">@item.StatusName</td>
+                            <td valign="middle">
+                                <a href="@Url.Action("EditTask","ToDo",new { id=item.TaskGuid})"><i class="fas fa-edit headIcons"></i></a> 
+                                &nbsp; 
+                                <a href="@Url.Action("DeleteTask","ToDo",new { id=item.TaskGuid})" data-id="@item.TaskGuid"><i class="fas fa-trash headIcons"></i></a>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5">No records found</td>
+                        </tr>
+                    }
+                    i++;
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+
+    $(function () {
+          var resources = [];
+        resources.push({
+            confirmationMessage: "@ToDoApplication.Resources.Common.ConfirmationMessage";
+        });
+        ToDo.init(resources,siteRoot);
+        if (@Model.Count()> 0) {
+            $('#toDoTable').DataTable({
+                "bLengthChange": false,
+                searching: false,
+                ordering: false,
+                paging: true
+            });
+        }
+    })
+</script>

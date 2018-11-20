@@ -1,0 +1,38 @@
+﻿@model ToDoApplication.Models.ToDoModel
+@{
+    ViewData["Title"] = "Add Task";
+}
+
+<div class="content">
+    <div class="row">
+        <div  style="text-align:center">
+            <h3 class="h2">Add task</h3>
+            <hr style="border:1px solid #90C3D4;" />
+        </div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+       @using (Html.BeginForm("AddTask", "ToDo", FormMethod.Post, new { @class = "addForm" }))
+        {
+            <div>@Html.AntiForgeryToken()</div>
+            <div class="col-md-1">&nbsp;</div>
+            <div class="col-md-10">
+                @Html.Partial("_TaskForm", Model)
+            </div>
+            
+            
+        }
+    </div>
+</div>
+<script src="~/scripts/ToDo.js"></script>
+<script>
+    var resources = [];
+    resources.push({
+        ValidateTaskName :'@ToDoApplication.Resources.Common.Validate_TaskName',
+       ValidateTaskName1 : '@ToDoApplication.Resources.Common.Validate_TaskName1',
+       ValidateTaskDescription :'@ToDoApplication.Resources.Common.Validate_TaskDescription',
+       ValidateTaskDescription1:'@ToDoApplication.Resources.Common.Validate_TaskDescription1',
+       ValidateTaskStatus:'@ToDoApplication.Resources.Common.Validate_TaskStatus'
+    });
+    ToDo.init(resources,siteRoot);
+</script>
